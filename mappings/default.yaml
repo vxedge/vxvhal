@@ -1,0 +1,30 @@
+# VSS signal -> Android Automotive vehicle property, one row per property and area.
+#
+# Property IDs are from AOSP hardware/interfaces automotive/vehicle/aidl_property
+# VehicleProperty.aidl at 0162af698935100a590b7359581ac8b1b80693e5 (android17-release, AAOS 26Q2).
+# Units: AAOS value = VSS value * scale + offset. VSS units are those of the databroker's VSS
+# release; AAOS units are the property's @unit. The pairs follow the COVESA AASIG VSS-to-Android
+# binding (wiki.covesa.global "Binding of VSS to Android Properties").
+properties:
+  - name: PERF_VEHICLE_SPEED
+    prop: 0x11600207
+    vss: Vehicle.Speed               # VSS km/h, AAOS m/s
+    type: float
+    scale: 0.2777777777777778        # 1 / 3.6
+    change_mode: continuous
+    min_sample_rate: 1.0
+    max_sample_rate: 10.0
+  - name: ENGINE_RPM
+    prop: 0x11600305
+    vss: Vehicle.Powertrain.CombustionEngine.Speed   # VSS rpm, AAOS rpm
+    type: float
+    change_mode: continuous
+    min_sample_rate: 1.0
+    max_sample_rate: 10.0
+  - name: PERF_ODOMETER
+    prop: 0x11600204
+    vss: Vehicle.TraveledDistance    # VSS km, AAOS km
+    type: float
+    change_mode: continuous
+    min_sample_rate: 0.1
+    max_sample_rate: 1.0

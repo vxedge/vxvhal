@@ -1,0 +1,25 @@
+vxedge — vxvhal
+Copyright 2026 The vxedge Authors
+
+This product includes software developed as part of the vxedge project
+(https://github.com/vxedge).
+
+Source code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+---
+
+Third-party notices
+
+proto/aosp/ contains Protocol Buffers definitions from the Android Open Source Project
+(https://android.googlesource.com/platform/hardware/interfaces), Copyright The Android Open
+Source Project, licensed under the Apache License, Version 2.0.
+
+proto/kuksa/ contains Protocol Buffers definitions from Eclipse Kuksa
+(https://github.com/eclipse-kuksa/kuksa-proto), Copyright Contributors to the Eclipse
+Foundation, licensed under the Apache License, Version 2.0.
+
+The pins are listed in proto/PROVENANCE.md. Android is a trademark of Google LLC. Eclipse and
+Eclipse Kuksa are trademarks of the Eclipse Foundation. vxvhal is independent and not
+affiliated with or endorsed by them.
+
+Rust dependencies are consumed through crates.io under their own licences.

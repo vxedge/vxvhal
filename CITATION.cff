@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "vxvhal: an Eclipse Kuksa provider serving Android Automotive's gRPC Vehicle HAL from VSS signals"
+type: software
+authors:
+  - family-names: "Djaafri"
+    given-names: "Fouzi"
+    orcid: "https://orcid.org/0009-0004-7173-9344"
+    affiliation: "Independent Researcher"
+repository-code: "https://github.com/vxedge/vxvhal"
+url: "https://vxedge.dev"
+version: "0.1.0"
+license: Apache-2.0
+keywords:
+  - android-automotive
+  - vehicle-hal
+  - vss
+  - eclipse-kuksa
+  - software-defined-vehicle
+  - testbed
+abstract: >-
+  vxvhal serves Android Automotive's gRPC Vehicle HAL (GRPCVehicleHardware's VehicleServer) from
+  COVESA VSS signals in an Eclipse Kuksa databroker, through a mapping of VSS path to AAOS property
+  and unit. It gives an AAOS guest in a vxedge virtual prototype trial a production-shaped vehicle
+  data path. It is not a vendor Vehicle HAL.
