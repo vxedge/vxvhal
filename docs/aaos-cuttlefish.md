@@ -26,10 +26,18 @@ not map, such as `GEAR_SELECTION`. Values were published with the Kuksa CLI and 
 | `Vehicle.Speed` 36.0 | `PERF_VEHICLE_SPEED(0x11600207)` `AVAILABLE` 10.0 m/s |
 | `Vehicle.Powertrain.CombustionEngine.Speed` 2500 | `ENGINE_RPM(0x11600305)` `AVAILABLE` 2500.0 rpm |
 
+### The property stream, second boot
+
+CarService subscribed to `PERF_VEHICLE_SPEED` at 5 Hz (`dumpsys car_service --services CarPropertyService`).
+Before any publish, its Vehicle HAL event log held no event. After `Vehicle.Speed` 54.0 and then 90.0 were
+published to Kuksa, `dumpsys car_service --hal` showed `event count:2` with the last event
+`PERF_VEHICLE_SPEED(0x11600207)` `AVAILABLE` 25.0 m/s: both updates reached CarService over the stream, not
+through `GetValues`. This boot was launched from a fresh `cvd reset`, with the same build and flags.
+
 ## Limits
 
-- One host, one guest, through `GetValues`. CarService subscriptions over the property stream are served but were
-  not checked in the guest in this run.
+- One host, one guest. `GetValues` and the property stream both reached CarService; `SetValues` is refused by
+  design in 0.1.
 - vxvhal serves the guest's Ethernet path only. The vsock address `run_cvd` also passes is logged and not served.
 - The Cuttlefish network here is Cuttlefish's own bridge (`cvd-ebr`), not a vxedge slice.
 

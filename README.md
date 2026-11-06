@@ -35,8 +35,8 @@ The default mapping (`mappings/default.yaml`) carries three properties: `PERF_VE
 ## What it is not
 
 - Not a vendor Vehicle HAL, and not tested with CTS or VTS.
-- Run against one AAOS guest so far: Cuttlefish with AAOS 26Q2 (Android 17, API 37), reading values through
-  CarService (`docs/aaos-cuttlefish.md`). The property stream into CarService is not yet checked in the guest.
+- Run against one AAOS guest so far: Cuttlefish with AAOS 26Q2 (Android 17, API 37). Values reached CarService
+  both on request and over the property stream (`docs/aaos-cuttlefish.md`).
 - The mapping is hand-written. COVESA's AASIG binding and its `vspec2aaproperties` generator are the source of
   the pairs, but COVESA describes that mapping as needing an update, and it is one-way.
 
