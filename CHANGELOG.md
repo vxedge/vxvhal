@@ -14,4 +14,7 @@ All notable changes to this repo are documented here. Format follows
 - A YAML mapping of VSS path to AAOS property ID, area and unit conversion, with three properties
   (`PERF_VEHICLE_SPEED`, `ENGINE_RPM`, `PERF_ODOMETER`).
 - An integration test against the Kuksa databroker 0.7.1 image that vxparts pins.
+- `scripts/cuttlefish-vhal-proxy.sh`, a drop-in for Cuttlefish's host `vhal_proxy_server`, and
+  `docs/aaos-cuttlefish.md`: AAOS 26Q2 on Cuttlefish read `PERF_VEHICLE_SPEED` and `ENGINE_RPM` from Kuksa
+  through vxvhal.
 - Vendored, pinned interfaces: AOSP `android17-release` (AAOS 26Q2) and `kuksa-proto` from databroker 0.7.1.

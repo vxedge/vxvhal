@@ -35,8 +35,8 @@ The default mapping (`mappings/default.yaml`) carries three properties: `PERF_VE
 ## What it is not
 
 - Not a vendor Vehicle HAL, and not tested with CTS or VTS.
-- Not yet run against an AAOS guest: the tests drive its gRPC API directly against a real databroker. The AAOS
-  run, on Cuttlefish with AAOS 26Q2, is the next step.
+- Run against one AAOS guest so far: Cuttlefish with AAOS 26Q2 (Android 17, API 37), reading values through
+  CarService (`docs/aaos-cuttlefish.md`). The property stream into CarService is not yet checked in the guest.
 - The mapping is hand-written. COVESA's AASIG binding and its `vspec2aaproperties` generator are the source of
   the pairs, but COVESA describes that mapping as needing an update, and it is one-way.
 
@@ -46,7 +46,9 @@ The default mapping (`mappings/default.yaml`) carries three properties: `PERF_VE
 cargo run --release -- --databroker http://127.0.0.1:55555 --mapping mappings/default.yaml --listen 0.0.0.0:9300
 ```
 
-In the AAOS guest, the Vehicle HAL must be the gRPC one, pointed at this address.
+In the AAOS guest, the Vehicle HAL must be the gRPC one, pointed at this address. Cuttlefish's auto guest
+already is: `scripts/cuttlefish-vhal-proxy.sh` replaces Cuttlefish's host `vhal_proxy_server` with vxvhal
+(`docs/aaos-cuttlefish.md`).
 
 ## Test
 
