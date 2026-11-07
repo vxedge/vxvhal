@@ -28,9 +28,10 @@ sends them.
 | `SetValues` | `ACCESS_DENIED`: writes to actuators (Kuksa `Actuate`) come in 0.2 |
 | Supported-value calls | Not used: no mapped property declares supported-value info |
 
-The default mapping (`mappings/default.yaml`) carries three properties: `PERF_VEHICLE_SPEED` from
+The default mapping (`mappings/default.yaml`) carries four properties: `PERF_VEHICLE_SPEED` from
 `Vehicle.Speed` (km/h to m/s), `ENGINE_RPM` from `Vehicle.Powertrain.CombustionEngine.Speed`, and
-`PERF_ODOMETER` from `Vehicle.TraveledDistance`.
+`PERF_ODOMETER` from `Vehicle.TraveledDistance`, and `GEAR_SELECTION` from
+`Vehicle.Powertrain.Transmission.SelectedGear`, an enum mapped through the row's `values` table.
 
 ## What it is not
 
