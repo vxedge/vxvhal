@@ -58,6 +58,13 @@ pub struct Property {
     pub min_sample_rate: f32,
     #[serde(default)]
     pub max_sample_rate: f32,
+    /// For an enum property: VSS value -> AAOS value. A VSS value not listed does not convert.
+    /// When set, `scale` and `offset` are not used.
+    #[serde(default)]
+    pub values: std::collections::BTreeMap<i64, i64>,
+    /// The property's `configArray`, such as the supported gears of `GEAR_SELECTION`.
+    #[serde(default)]
+    pub config_array: Vec<i32>,
 }
 
 fn one() -> f64 {
@@ -150,6 +157,7 @@ impl Property {
                 access: vhal::VehiclePropertyAccess::Read as i32,
                 ..Default::default()
             }],
+            config_array: self.config_array.clone(),
             min_sample_rate: self.min_sample_rate,
             max_sample_rate: self.max_sample_rate,
             ..Default::default()
@@ -167,7 +175,14 @@ impl Property {
             TypedValue::Uint64(v) => *v as f64,
             _ => return None,
         };
-        let y = x * self.scale + self.offset;
+        let y = if self.values.is_empty() {
+            x * self.scale + self.offset
+        } else {
+            if x.fract() != 0.0 {
+                return None;
+            }
+            *self.values.get(&(x as i64))? as f64
+        };
         let mut out = vhal::VehiclePropValue {
             timestamp: timestamp_ns,
             area_id: self.area,
@@ -235,6 +250,28 @@ mod tests {
             m.properties[0]
                 .convert(&TypedValue::String("fast".into()), 0)
                 .is_none()
+        );
+    }
+
+    #[test]
+    fn a_vss_gear_maps_to_the_aaos_gear_enum() {
+        let m = default_mapping();
+        let gear = m
+            .properties
+            .iter()
+            .find(|p| p.name == "GEAR_SELECTION")
+            .unwrap();
+        let park = gear.convert(&TypedValue::Int32(126), 0).unwrap();
+        assert_eq!(park.int32_values, vec![0x0004]);
+        let reverse = gear.convert(&TypedValue::Int32(-1), 0).unwrap();
+        assert_eq!(reverse.int32_values, vec![0x0002]);
+        assert!(
+            gear.convert(&TypedValue::Int32(55), 0).is_none(),
+            "unlisted gear"
+        );
+        assert_eq!(
+            gear.config().config_array,
+            vec![0x0001, 0x0002, 0x0004, 0x0008]
         );
     }
 

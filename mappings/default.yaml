@@ -28,3 +28,11 @@ properties:
     change_mode: continuous
     min_sample_rate: 0.1
     max_sample_rate: 1.0
+  - name: GEAR_SELECTION
+    prop: 0x11400400
+    vss: Vehicle.Powertrain.Transmission.SelectedGear   # VSS int8: 0 neutral, -1 reverse, 126 park, 127 drive
+    type: int32
+    change_mode: on_change
+    # AAOS VehicleGear: GEAR_NEUTRAL 0x1, GEAR_REVERSE 0x2, GEAR_PARK 0x4, GEAR_DRIVE 0x8
+    values: { 0: 0x0001, -1: 0x0002, 126: 0x0004, 127: 0x0008 }
+    config_array: [0x0001, 0x0002, 0x0004, 0x0008]     # the supported gears, an automatic transmission

@@ -17,4 +17,7 @@ All notable changes to this repo are documented here. Format follows
 - `scripts/cuttlefish-vhal-proxy.sh`, a drop-in for Cuttlefish's host `vhal_proxy_server`, and
   `docs/aaos-cuttlefish.md`: AAOS 26Q2 on Cuttlefish read `PERF_VEHICLE_SPEED` and `ENGINE_RPM` from Kuksa
   through vxvhal, on request and over the property stream into CarService.
+- Enum properties: a mapping row may give `values` (VSS value to AAOS value) and a `config_array`. The
+  default mapping adds `GEAR_SELECTION` from `Vehicle.Powertrain.Transmission.SelectedGear` (neutral,
+  reverse, park, drive), which AAOS's EVS app needs to start.
 - Vendored, pinned interfaces: AOSP `android17-release` (AAOS 26Q2) and `kuksa-proto` from databroker 0.7.1.
