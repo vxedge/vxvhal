@@ -10,6 +10,7 @@ authors:
 repository-code: "https://github.com/vxedge/vxvhal"
 url: "https://vxedge.dev"
 version: "0.1.0"
+date-released: "2026-11-08"
 license: Apache-2.0
 keywords:
   - android-automotive

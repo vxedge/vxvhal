@@ -1,1 +1,5 @@
 /target
+# Cuttlefish secure_env state, written to the working directory by a local AAOS run
+/NVChip
+/keymint_secure_deletion_data
+/oemlock_secure

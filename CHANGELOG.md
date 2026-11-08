@@ -6,6 +6,10 @@ All notable changes to this repo are documented here. Format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-08
+
+First release: the read path from a Kuksa databroker to an AAOS 26Q2 guest's Vehicle HAL.
+
 ### Added
 
 - A `VehicleServer` for AAOS's `GRPCVehicleHardware`, backed by a Kuksa databroker (`kuksa.val.v2`):
@@ -21,3 +25,9 @@ All notable changes to this repo are documented here. Format follows
   default mapping adds `GEAR_SELECTION` from `Vehicle.Powertrain.Transmission.SelectedGear` (neutral,
   reverse, park, drive), which AAOS's EVS app needs to start.
 - Vendored, pinned interfaces: AOSP `android17-release` (AAOS 26Q2) and `kuksa-proto` from databroker 0.7.1.
+- `Containerfile`: vxvhal as a container payload, a static musl binary on `scratch` with the default
+  mapping, listening on `:9300` and reading the databroker at `127.0.0.1:55555`; the image the vxparts part
+  `svc/signal/app/vxvhal` publishes.
+
+[Unreleased]: https://github.com/vxedge/vxvhal/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/vxedge/vxvhal/releases/tag/v0.1.0
