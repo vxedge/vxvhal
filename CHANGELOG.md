@@ -6,6 +6,11 @@ All notable changes to this repo are documented here. Format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- README: AOSP ships `GRPCVehicleHardware` since the `android14-release` branch, not since Android 16; vxvhal is
+  built and tested against `android17-release`.
+
 ## [0.1.1] - 2026-11-08
 
 ### Fixed
