@@ -1,6 +1,10 @@
 use std::path::PathBuf;
+use std::sync::Arc;
+use std::time::Duration;
 
 use clap::Parser;
+use tokio::signal::unix::{SignalKind, signal};
+use tokio::sync::Notify;
 use tonic::transport::Server;
 
 use vxvhal::mapping::Mapping;
@@ -44,14 +48,40 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         properties = mapping.properties.len(),
         "vxvhal serving"
     );
-    Server::builder()
+    let stop = Arc::new(Notify::new());
+    let server = Server::builder()
         .add_service(VehicleServerServer::new(Vhal::new(
             mapping.index(),
             signals,
         )))
-        .serve_with_shutdown(args.listen, async {
-            let _ = tokio::signal::ctrl_c().await;
-        })
-        .await?;
-    Ok(())
+        .serve_with_shutdown(args.listen, {
+            let stop = stop.clone();
+            async move { stop.notified().await }
+        });
+    tokio::pin!(server);
+    tokio::select! {
+        served = &mut server => return served.map_err(Into::into),
+        () = stopped() => {}
+    }
+    // Stop accepting, then give open calls a moment: CarService holds its property stream open for
+    // as long as the guest runs, so a graceful shutdown alone would wait for the guest.
+    tracing::info!("vxvhal stopping");
+    stop.notify_one();
+    match tokio::time::timeout(DRAIN, server).await {
+        Ok(served) => served.map_err(Into::into),
+        Err(_) => Ok(()),
+    }
+}
+
+/// How long open calls may take to finish once vxvhal is asked to stop.
+const DRAIN: Duration = Duration::from_secs(2);
+
+/// Resolves on SIGINT or SIGTERM. A container runtime stops its entrypoint with SIGTERM, and as
+/// PID 1 vxvhal gets no default action for it, so it must handle it to stop at all.
+async fn stopped() {
+    let mut term = signal(SignalKind::terminate()).expect("install the SIGTERM handler");
+    tokio::select! {
+        _ = tokio::signal::ctrl_c() => {}
+        _ = term.recv() => {}
+    }
 }
