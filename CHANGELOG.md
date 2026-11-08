@@ -6,6 +6,15 @@ All notable changes to this repo are documented here. Format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-08
+
+### Fixed
+
+- vxvhal stops on SIGTERM. As a container's entrypoint it runs as PID 1, which gets no default action for
+  SIGTERM, so a container stop waited out the runtime's timeout and then killed it. It now stops accepting
+  calls and exits after at most 2 s, without waiting for CarService's property stream, which stays open for as
+  long as the guest runs.
+
 ## [0.1.0] - 2026-11-08
 
 First release: the read path from a Kuksa databroker to an AAOS 26Q2 guest's Vehicle HAL.
@@ -29,5 +38,6 @@ First release: the read path from a Kuksa databroker to an AAOS 26Q2 guest's Veh
   mapping, listening on `:9300` and reading the databroker at `127.0.0.1:55555`; the image the vxparts part
   `svc/signal/app/vxvhal` publishes.
 
-[Unreleased]: https://github.com/vxedge/vxvhal/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/vxedge/vxvhal/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/vxedge/vxvhal/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/vxedge/vxvhal/releases/tag/v0.1.0
