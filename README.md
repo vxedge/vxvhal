@@ -11,8 +11,9 @@ CarService -> DefaultVehicleHal    VehicleServer (gRPC)            kuksa.val.v2
            -> GRPCVehicleHardware ─────────────────> mapping ─────> VSS signals <── zone ECUs, CAN, ...
 ```
 
-Since Android 16, AOSP ships `GRPCVehicleHardware`, a Vehicle HAL that forwards every call to a `VehicleServer`
-on another machine or VM. vxvhal is that server. It reads values from a Kuksa databroker, converts each one
+AOSP ships `GRPCVehicleHardware` (since the `android14-release` branch), a Vehicle HAL that forwards every
+call to a `VehicleServer` on another machine or VM. vxvhal is that server, built and tested against
+`android17-release`. It reads values from a Kuksa databroker, converts each one
 through a mapping table (VSS path to AAOS property ID, area and unit), and streams updates as the databroker
 sends them.
 
