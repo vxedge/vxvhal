@@ -5,6 +5,9 @@ signals. Rust: tonic 0.14 + tonic-prost, prost 0.14, edition 2024, `serde_yaml_n
 
 ## Rules
 
+- **No AI attribution in commits or PRs.** Commits carry no `Co-Authored-By` or `Claude-Session`
+  trailer, and PR descriptions no generated-by footer or session link. `.claude/settings.json`
+  turns Claude Code's attribution off.
 - `proto/` is vendored and unmodified. Change it only by re-fetching at a new pin and updating
   `proto/PROVENANCE.md` in the same change.
 - Every mapping row cites its source: the property ID from `VehicleProperty.aidl` at the pinned AOSP commit,
